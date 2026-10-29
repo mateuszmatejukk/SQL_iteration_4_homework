@@ -59,3 +59,51 @@ cancelled_orders as (
 	) 
 
 ```
+## Zadanie 5
+```sql
+with customer_totals as(
+	select
+	c.customer_id,
+	c.customer_name,
+	sum(o.total_amount) as total_revenue
+	from course.customers c
+	join course.orders o
+	on c.customer_id = o.customer_id 
+	group by c.customer_id, c.customer_name 
+	),
+average_customer as(
+	select 
+	avg(total_revenue) as average_total_revenue
+	from customer_totals 
+	)
+select
+customer_id,
+customer_name,
+total_revenue 
+from customer_totals 
+order by total_revenue desc;
+```
+## Zadanie 6
+```sql
+
+```
+## Zadanie 7
+```sql
+with customers_without_orders as(
+	select
+	c.customer_id,
+	c.customer_name,
+	c.country
+	from course.customers c
+	left join course.orders o
+	on c.customer_id = o.customer_id
+	where o.customer_id is null)
+select 
+customer_id,
+customer_name,
+country 
+from customers_without_orders
+```
+## Zadanie 8
+```sql
+```
