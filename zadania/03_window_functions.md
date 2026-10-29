@@ -62,3 +62,56 @@ from course.orders
 ```sql
 
 ```
+## Zadanie 6
+```sql
+select
+order_id,
+customer_id,
+order_date,
+lead(total_amount) over(
+	partition by customer_id
+	order by order_date
+	) as next_order_date
+from course.orders;
+```
+## Zadanie 7
+```sql
+select
+order_id,
+customer_id,
+order_date,
+total_amount,
+sum(total_amount) over(
+	partition by customer_id
+	order by order_date,order_id
+	rows between unbounded preceding and current row
+	) as running_customer_revenue
+from course.orders;
+```
+## Zadanie 8
+```sql
+select
+    order_id,
+    customer_id,
+    total_amount,
+    sum(total_amount) over (
+        partition by customer_id
+    ) as customer_total_revenue
+from course.orders;
+```
+## Zadanie 9
+```sql
+select
+    order_id,
+    total_amount,
+    sum(total_amount) over () AS all_orders_revenue,
+    round(
+        total_amount / sum(total_amount) OVER () * 100,
+        2
+    ) as revenue_percent
+from course.orders;
+```
+## Zadanie 10
+```sql
+
+```
