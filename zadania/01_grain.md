@@ -87,5 +87,38 @@ group by customer_id
 ```
 ## Zadanie 10
 ```sql
+with order_items_value as(
+	select
+	order_id,
+	sum(quantity * unit_price) as final_price
+	from course.order_items
+	group by order_id),
 
+total_sale_per_customer as(
+	select
+	o.customer_id,
+	count(o.order_id) as orders_count,
+	sum(o.total_amount) as total_revenue
+	from course.orders o
+	group by o.customer_id)
+	
+select 
+customer_id,
+orders_count,
+total_revenue 
+from total_sale_per_customer	
 ```
+## Zadanie 11
+```sql
+select
+c.country,
+count(distinct c.customer_id) as customers_count,
+count(o.order_id) as orders_count,
+sum(o.total_amount) as total_revenue
+from course.customers c
+left join course.orders o
+on c.customer_id = o.customer_id 
+group by c.country
+```
+## Zadanie 12
+SUM(o.total_amount) po joinie orders z order_items może zawyżyć wynik, bo ta sama kwota zamówienia powtorzy się tyle razy, ile zamowienie ma pozycji.
