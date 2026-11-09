@@ -135,5 +135,21 @@ order by issue_type, object_id
 ```
 ## Zadanie 6
 ```sql
-
+select
+o.order_id,
+c.customer_name,
+o.status,
+o.total_amount as order_total_amount,
+sum(oi.quantity * oi.unit_price) as items_total_amoumt,
+o.total_amount - sum(oi.quantity * oi.unit_price)  as difference_amount,
+case 
+	when o.total_amount - sum(oi.quantity * oi.unit_price) = 0 then 'match'
+	else 'different'
+end as amount_check
+from course.customers c
+join course.orders o
+on c.customer_id = o.customer_id 
+left join course.order_items oi
+on o.order_id = oi.order_id 
+group by o.order_id, c.customer_name, o.status, o.total_amount
 ```
